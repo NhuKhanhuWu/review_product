@@ -77,7 +77,7 @@
         }
 
         .form {
-            @apply center-x-30 flex flex-col gap-5 border-round p-10 pb-20 bg-white
+            @apply center-x-30 flex flex-col gap-5 border-round px-10 pb-8 bg-white
         }
 
         .hover-zoom-parent {
@@ -89,7 +89,7 @@
         }
 
         .sticky-header {
-            @apply sticky top-0 bg-white z-20 pb-3
+            @apply sticky bg-white z-20
         }
 
         .sticky-side-bar {
@@ -114,11 +114,11 @@
 </head>
 
 @php
-$slate_bg_page = ['http://127.0.0.1:8000/api/login', 'http://127.0.0.1:8000/users/create'];
-$is_slate = in_array(Request::url(), $slate_bg_page);
+    $slate_bg_page = ['http://127.0.0.1:8000/api/login', 'http://127.0.0.1:8000/users/create'];
+    $is_slate = in_array(Request::url(), $slate_bg_page);
 @endphp
 
-<body class="py-5 {{ $is_slate ? 'bg-slate-300' : '' }}">
+<body class="{{ $is_slate ? 'bg-slate-300' : '' }}">
     @yield('content')
 
     @yield('script')

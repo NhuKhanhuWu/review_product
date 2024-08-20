@@ -1,11 +1,11 @@
 @php
-    $img_src =
-        $user->avatar === null
-            ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDwmG52pVI5JZfn04j9gdtsd8pAGbqjjLswg&s'
-            : $user->avatar;
+$img_src =
+$user->avatar === null
+? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDwmG52pVI5JZfn04j9gdtsd8pAGbqjjLswg&s'
+: $user->avatar;
 @endphp
 
-<div class="flex-col flex w-1/6">
+<div class="flex-col flex">
     <a href="{{ route('products.index') }}" class="center-x-50 block"><- Go back to list</a>
 
             <img src="{{ $img_src }}" class="border-2 border-black rounded-full" />

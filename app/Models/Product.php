@@ -37,9 +37,12 @@ class Product extends Model
     // COUNT REVIEW: END
 
     // SEARCH: START
-    public function scopeTitle(Builder $query, string $title): Builder | QueryBuilder
+    public function scopeName(Builder $query, $title): Builder | QueryBuilder
     {
-        return $query->where("title", "like", "%" . $title . "%");
+        if ($title === null) {
+            return $query->where("name", "like", "%" . $title . "%");
+        }
+        return $query->where("name", "like", "%" . $title . "%");
     }
     // SEARCH: END
 

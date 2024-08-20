@@ -30,9 +30,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        // check if email already in use
-        // dd($request->validated()['email']);
-
         User::create($request->validated());
         return redirect()->route('products.index');
     }
@@ -72,8 +69,13 @@ class UserController extends Controller
     }
 
     // custom route
-    public function reviews(User $user)
+    public function reviews(User $user, Request $request)
     {
-        return view('user.review', ['user' => $user]);
+        // filter reviews
+        $filter = $request->input('filter');
+        $reviews = $filter == '' ? $user->reviews : $user->filterReview((int)$filter[0], $user)->get();
+        // dd($reviews);
+
+        return view('user.review', ['user' => $user, 'reviews' => $reviews]);
     }
 }

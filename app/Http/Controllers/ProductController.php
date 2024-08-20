@@ -13,18 +13,18 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $title = $request->input("title");
+        $name = $request->input("name");
         $sort = $request->input("sort");
 
         $request->validate([
             'from' => 'numeric',
             'to' => 'numeric|gt:from',
         ]);
-
-        $products = Product::when(
-            $title,
-            fn($query, $title) => $query->title($title)
-        )->rangePrice($request->price_from, $request->price_to)->avgRating()->totalReview();
+        // ::when(
+        //     $title,
+        //     fn($query, $title) => $query->title($title)
+        // )
+        $products = Product::name($name)->rangePrice($request->price_from, $request->price_to)->avgRating()->totalReview();
 
         $products = match ($sort) {
             'a_z' => $products->sortA_Z(),
