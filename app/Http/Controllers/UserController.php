@@ -53,11 +53,19 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
-        $user->update($request->validated());
+        // dd($request->validated());
+        // dd($request->);
+        $user->update($request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'birth' => 'date',
+            'gender' => 'string'
+        ]));
 
-        return redirect()->route('users.edit', ['user' => $user])->with('message', 'test');
+        session()->flash('success', 'Your information has ben updated!');
+        return redirect()->route('users.edit', ['user' => $user]);
     }
 
     /**

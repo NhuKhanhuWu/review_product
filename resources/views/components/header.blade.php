@@ -20,9 +20,12 @@
         </button>
     </form>
 
-    <div class="flex gap-2">
+    <div class="flex gap-2 items-center">
         @if (Auth::check())
-            <a href="{{ route('users.edit', ['user' => Auth::user()]) }}">Account</a>
+            <a href="{{ route('users.edit', ['user' => Auth::user()]) }}">
+                <img src="{{ Auth::user()->avatar }}" class="h-10 rounded-full" />
+            </a> |
+
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button>LOGOUT</button>

@@ -35,7 +35,7 @@
         }
 
         .bold-text {
-            @apply font-bold mb-3 text-lg
+            @apply font-bold text-lg
         }
 
         .btn {
@@ -88,12 +88,20 @@
             @apply hover:scale-125 transition-all duration-500 cursor-pointer
         }
 
+        .success {
+            @apply text-green-500 text-sm
+        }
+
         .sticky-header {
-            @apply sticky bg-white z-20
+            @apply sticky bg-white z-20 top-0
         }
 
         .sticky-side-bar {
             @apply sticky left-0 bg-white z-20 mb-10 ml-10
+        }
+
+        .top-3rem {
+            top: 3rem !important
         }
 
         .red {
