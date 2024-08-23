@@ -55,14 +55,14 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // dd($request->validated());
-        // dd($request->);
-        $user->update($request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'birth' => 'date',
-            'gender' => 'string'
-        ]));
+            'birth' => 'nullable|date',
+            'gender' => 'nullable'
+        ]);
+
+        $user->update($validated);
 
         session()->flash('success', 'Your information has ben updated!');
         return redirect()->route('users.edit', ['user' => $user]);
