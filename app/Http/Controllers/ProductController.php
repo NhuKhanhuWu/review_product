@@ -11,34 +11,27 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $name = $request->input("name");
-        $sort = $request->input("sort");
+        $products = Product::query();
 
-        $request->validate([
-            'from' => 'numeric',
-            'to' => 'numeric|gt:from',
-        ]);
-        // ::when(
-        //     $title,
-        //     fn($query, $title) => $query->title($title)
-        // )
-        $products = Product::name($name)->rangePrice($request->price_from, $request->price_to)->avgRating()->totalReview();
+        $products->when(request('name'), function ($query) {
+            $query->where('name', 'like', '%' . request('name') . '%');
+        })->when(request('sortOption'), function ($query) {
+            match (request('sortOption')) {
+                'a_z' => $query->sortA_Z(),
+                'z_a' => $query->sortZ_A(),
+                'expensive_cheap' => $query->sortExpensive(),
+                'cheap_expensive' => $query->sortCheap(),
+                'hight_rating' => $query->sortRating('desc'),
+                'low_rating' => $query->sortRating('asc'),
+                default => $query
+            };
+        })->rangePrice(request('price_from'), request('price_to'))
+            ->avgRating()
+            ->totalReview();
 
-        $products = match ($sort) {
-            'a_z' => $products->sortA_Z(),
-            'z_a' => $products->sortZ_A(),
-            'expensive_cheap' => $products->sortExpensive(),
-            'cheap_expensive' => $products->sortCheap(),
-            'hight_rating' => $products->sortRating('desc'),
-            'low_rating' => $products->sortRating('asc'),
-            default => $products
-        };
-
-        $products = $products->get();
-
-        return view("product.index", ['products' => $products]);
+        return view("product.index", ['products' => $products->get()]);
     }
 
     /**

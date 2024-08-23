@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -26,9 +25,3 @@ Route::middleware(['web'])->group(function () {
     // create account
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
 });
-
-
-// show account infor
-// Route::resource('users', User::class)->only(['show', 'create', 'store']);
-
-// ->middleware('auth:sanctum')

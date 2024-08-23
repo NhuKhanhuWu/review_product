@@ -5,21 +5,27 @@
     </a>
 
     <!-- search bar -->
-    <form class="border px-2 py-1 w-1/3 flex justify-between items-center border-black rounded-full"
-        action="{{ route('products.index') }}" method="POST">
-        @csrf
-        @method('GET')
+    @if (empty($form))
+        @php
+            $form = 'search-product';
+        @endphp
+        <form action="{{ route('products.index') }}" method="GET" id="search-product">
+    @endif
+    <div class="border px-2 w-96 py-1 flex justify-between items-center border-black rounded-full">
+        <input form="{{ $form }}" class="no-border-input w-full" value="{{ request('name') }}" type="text"
+            name="name" placeholder="Product name" />
 
-        <input class="w-full no-border-input" required value="{{ request('name') }}" type="text" name="name"
-            placeholder="Product name">
-
-        <button type="submit" class="flex">
+        <button form="{{ $form }}" type="submit" class="flex">
             <span class="material-symbols-outlined">
                 search
             </span>
         </button>
-    </form>
+    </div>
+    @if ($form === 'search-product')
+        </form>
+    @endif
 
+    {{-- user login, account --}}
     <div class="flex gap-2 items-center">
         @if (Auth::check())
             <a href="{{ route('users.edit', ['user' => Auth::user()]) }}">
